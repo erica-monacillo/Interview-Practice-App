@@ -75,7 +75,6 @@ export function Sidebar({ page, onNavigate, isOpen, onClose, user, onSignOut, an
 
         <p className="sidebar-footer">
           55 questions · 6 categories<br />
-          Built for your portfolio 🚀
         </p>
       </aside>
     </>
