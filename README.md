@@ -1,4 +1,4 @@
-# 🎯 InterviewPrep — Technical Interview Practice App
+# InterviewPrep — Technical Interview Practice App
 
 A full-stack web application for practicing technical interview questions, tracking your answers, and visualizing your progress.
 
