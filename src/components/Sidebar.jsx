@@ -23,7 +23,7 @@ export function Sidebar({ page, onNavigate, isOpen, onClose, user, onSignOut, an
         {/* Logo */}
         <div className="sidebar-logo">
           <div className="sidebar-logo-dot" />
-          InterviewPrep
+          InterviewForge
         </div>
 
         {/* Navigation links */}
