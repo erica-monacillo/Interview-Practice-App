@@ -62,6 +62,12 @@ export const Icons = {
   Search: icon(
     <><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></>
   ),
+  ChevronLeft: icon(
+    <><polyline points="15 18 9 12 15 6"/></>
+  ),
+  ChevronRight: icon(
+    <><polyline points="9 18 15 12 9 6"/></>
+  ),
   Star: function StarIcon({ size = 22, filled = false, className = '', style = {} }) {
     return (
       <svg viewBox="0 0 24 24" fill={filled ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width={size} height={size} className={className} style={style}>

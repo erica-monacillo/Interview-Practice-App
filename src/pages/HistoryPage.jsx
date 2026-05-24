@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { CATEGORIES } from '../data/questions'
+import { CATEGORIES, QUESTIONS } from '../data/questions'
 import { CategoryBadge } from '../components/CategoryBadge'
 import { Icons } from '../components/Icons'
 import { CONF_LABELS, CONF_COLORS } from '../components/StarRating'
@@ -10,8 +10,7 @@ function MiniStars({ value }) {
       {[1, 2, 3, 4, 5].map((n) => (
         <span
           key={n}
-          className="mini-star"
-          style={{ color: n <= value ? CONF_COLORS[value] : '#2a2e40' }}
+          className={`mini-star ${n <= value ? 'lit' : ''}`}
         >
           ★
         </span>
@@ -139,12 +138,22 @@ export function HistoryPage({ answers, onDelete }) {
                 </div>
               </div>
 
-              <div className="hc-answer">{a.answer}</div>
+              <div className="hc-answer">
+                <strong style={{ color: 'var(--text)' }}>Your Answer:</strong>
+                <div style={{ marginTop: 8 }}>{a.answer}</div>
+              </div>
+              
+              <div className="hc-answer" style={{ background: 'rgba(108, 142, 255, 0.05)', borderColor: 'var(--border)' }}>
+                <strong style={{ color: 'var(--text)' }}>Suggested Answer:</strong>
+                <div style={{ marginTop: 8, color: 'var(--muted)' }}>
+                  {QUESTIONS.find(q => q.question === a.question)?.suggestedAnswer || "No suggested answer available yet for this question."}
+                </div>
+              </div>
 
               <div className="hc-footer">
                 <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                   <MiniStars value={a.confidence} />
-                  <span style={{ fontSize: 12, fontWeight: 600, color: CONF_COLORS[a.confidence] }}>
+                  <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--text)' }}>
                     {CONF_LABELS[a.confidence]}
                   </span>
                   {formatTime(a.elapsed) && (

@@ -23,7 +23,6 @@ export function StarRating({ value, onChange }) {
               onMouseEnter={() => setHover(n)}
               onMouseLeave={() => setHover(0)}
               aria-label={`Rate ${n} star${n > 1 ? 's' : ''}`}
-              style={{ color: isLit ? CONF_COLORS[value] : undefined }}
             >
               <Icons.Star size={24} filled={isLit || isHoverLit} />
             </button>

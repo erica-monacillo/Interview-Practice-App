@@ -3,14 +3,13 @@ import { useAuth }    from './hooks/useAuth'
 import { useAnswers } from './hooks/useAnswers'
 import { useToast }   from './hooks/useToast'
 
-import { Sidebar }      from './components/Sidebar'
+import { Navbar }       from './components/Navbar'
 import { Toast }        from './components/Toast'
 import { AuthPage }     from './pages/AuthPage'
 import { HomePage }     from './pages/HomePage'
 import { PracticePage } from './pages/PracticePage'
 import { HistoryPage }  from './pages/HistoryPage'
 import { StatsPage }    from './pages/StatsPage'
-import { Icons }        from './components/Icons'
 
 export default function App() {
   const { user, loading: authLoading, signUp, signIn, signOut } = useAuth()
@@ -19,13 +18,11 @@ export default function App() {
 
   const [page,             setPage]     = useState('home')
   const [practiceCategory, setPracCat]  = useState('All')
-  const [navOpen,          setNavOpen]  = useState(false)
 
   // ── Navigate helper ────────────────────────────────────────────────────────
   const navigate = (dest, category) => {
     if (category) setPracCat(category)
     setPage(dest)
-    setNavOpen(false)
     // Scroll to top on page change
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
@@ -81,21 +78,10 @@ export default function App() {
   // ── Authenticated → main app ───────────────────────────────────────────────
   return (
     <div className="app-layout">
-      {/* Mobile nav toggle button */}
-      <button
-        className="mobile-toggle"
-        onClick={() => setNavOpen((o) => !o)}
-        aria-label="Toggle navigation"
-      >
-        <Icons.Menu size={20} />
-      </button>
-
-      {/* Sidebar navigation */}
-      <Sidebar
+      {/* Top Navigation */}
+      <Navbar
         page={page}
         onNavigate={navigate}
-        isOpen={navOpen}
-        onClose={() => setNavOpen(false)}
         user={user}
         onSignOut={handleSignOut}
         answersCount={answers.length}

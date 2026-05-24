@@ -36,26 +36,25 @@ export function AuthPage({ onSignUp, onSignIn }) {
   const handleKey = (e) => { if (e.key === 'Enter') handleSubmit() }
 
   return (
-    <div className="auth-page">
-      <div className="auth-card">
-        <div className="auth-logo">
-          <div className="auth-logo-dot" />
-          InterviewPrep
+    <div className="auth-page-split">
+      <div className="auth-left">
+        <div className="auth-left-content fade-up">
+          <h1>Master Your Interviews.</h1>
+          <p>Practice coding questions, track your confidence, and land your dream job with InterviewForge.</p>
         </div>
+      </div>
+      <div className="auth-right">
+        <div className="auth-card-split">
+          <div className="auth-logo-split fade-up">
+            <img src="/logo.png" alt="Logo" className="auth-logo-img" />
+          </div>
 
-        <h2 className="auth-title">
-          {mode === 'signin' ? 'Welcome back' : 'Create account'}
-        </h2>
-        <p className="auth-subtitle">
-          {mode === 'signin'
-            ? 'Sign in to access your practice history and stats.'
-            : 'Start tracking your interview prep journey.'}
-        </p>
+
 
         <div className="auth-form">
           {error   && <div className="auth-error">⚠ {error}</div>}
           {success && (
-            <div style={{ background: '#4cdf8a18', border: '1px solid #4cdf8a28', borderRadius: 8, padding: '10px 14px', fontSize: 13, color: 'var(--green)' }}>
+            <div className="save-success">
               ✓ {success}
             </div>
           )}
@@ -124,6 +123,7 @@ export function AuthPage({ onSignUp, onSignIn }) {
             {mode === 'signin' ? 'Sign Up' : 'Sign In'}
           </button>
         </div>
+      </div>
       </div>
     </div>
   )

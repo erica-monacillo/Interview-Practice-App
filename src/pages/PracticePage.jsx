@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useMemo } from 'react'
 import { QUESTIONS } from '../data/questions'
 import { CategoryBadge } from '../components/CategoryBadge'
 import { CategoryFilter } from '../components/CategoryFilter'
@@ -17,21 +17,37 @@ export function PracticePage({ answers, onSave, initialCategory = 'All' }) {
   const [saving, setSaving]       = useState(false)
 
   // Questions available for the selected category
-  const pool = category === 'All'
-    ? QUESTIONS
-    : QUESTIONS.filter((q) => q.category === category)
+  const pool = useMemo(() => {
+    if (category === 'All') return QUESTIONS;
+    if (category === 'WeakAreas') {
+      const latestAnswers = {};
+      answers.forEach(a => {
+        const timeA = new Date(a.created_at ?? a.timestamp).getTime();
+        const timeE = latestAnswers[a.question] ? new Date(latestAnswers[a.question].created_at ?? latestAnswers[a.question].timestamp).getTime() : 0;
+        if (!latestAnswers[a.question] || timeA > timeE) {
+          latestAnswers[a.question] = a;
+        }
+      });
+      const weakQs = Object.values(latestAnswers).filter(a => a.confidence <= 3).map(a => a.question);
+      return QUESTIONS.filter(q => weakQs.includes(q.question));
+    }
+    return QUESTIONS.filter((q) => q.category === category);
+  }, [category, answers]);
 
   // Pick a random question (avoid repeating current one)
   const pickQuestion = useCallback(() => {
+    if (pool.length === 0) {
+      setQuestion(null);
+      return;
+    }
     const available = question
       ? pool.filter((q) => q.id !== question.id)
       : pool
-    const q = available[Math.floor(Math.random() * available.length)]
+    const q = available.length > 0 ? available[Math.floor(Math.random() * available.length)] : pool[0];
     setQuestion(q)
     setAnswer('')
     setConf(0)
     setSaved(false)
-    setTimerKey((k) => k + 1)  // reset timer
   }, [pool, question])
 
   // Pick a question on first load and on category change
@@ -65,7 +81,20 @@ export function PracticePage({ answers, onSave, initialCategory = 'All' }) {
       <div className="practice-layout">
         {/* ── Question Card ── */}
         <div>
-          {question && (
+          {!question ? (
+            <div className="empty-state card" style={{ padding: '60px 24px' }}>
+              <div className="icon">🎉</div>
+              <h3>{category === 'WeakAreas' ? 'No Weak Areas!' : 'Loading...'}</h3>
+              <p style={{ color: 'var(--muted)' }}>
+                {category === 'WeakAreas' 
+                  ? "You don't have any recent answers with a low confidence rating (3 stars or below). Keep it up!"
+                  : "Preparing your practice session..."}
+              </p>
+              {category === 'WeakAreas' && (
+                <button className="btn btn-primary" style={{marginTop: 16}} onClick={() => setCategory('All')}>Practice All</button>
+              )}
+            </div>
+          ) : (
             <div className="question-card fade-up" key={question.id}>
               <div className="q-meta">
                 <CategoryBadge category={question.category} />
