@@ -3,7 +3,7 @@
 A full-stack web application for practicing technical interview questions, tracking your answers, and visualizing your progress.
 
 > **Portfolio Project** · React + Supabase · Built in 3–5 days
-Demo: https://interview-practice-app-xi.vercel.app/
+Demo: https://momentumhabittracker.vercel.app
 ---
 
 ## ✨ Features
